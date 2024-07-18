@@ -4,33 +4,34 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModelProvider
+import com.example.testnote.data.ArticleRepository
 import com.example.testnote.data.MockArticleRepository
 import com.example.testnote.presentation.ArticleViewModel
 import com.example.testnote.presentation.ArticleViewModelFactory
-import com.example.testnote.ui.articlelist.ArticleListScreen
 import com.example.testnote.ui.navigation.NavController
 import com.example.testnote.ui.theme.TestnoteTheme
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var viewModel: ArticleViewModel
+    //private lateinit var viewModel: ArticleViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         enableEdgeToEdge()
-        val useMockData = true
 
         val articleRepository = MockArticleRepository(this)
-        viewModel = ViewModelProvider(this, ArticleViewModelFactory(articleRepository))
-            .get(ArticleViewModel::class.java)
+        val repository = ArticleRepository()
+        val viewModelFactory = ArticleViewModelFactory(articleRepository,repository)
+        val viewModel: ArticleViewModel by viewModels { viewModelFactory }
+
+        //viewModel = ViewModelProvider(this, ArticleViewModelFactory(articleRepository, repository))
+        //    .get(ArticleViewModel::class.java)
 
         setContent {
             TestnoteTheme {
@@ -41,21 +42,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TestnoteTheme {
-        Greeting("Android")
+        viewModel.fetchArticles()
     }
 }

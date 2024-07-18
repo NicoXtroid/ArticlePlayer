@@ -7,3 +7,11 @@ data class RemoteArticle(
     val title: String = "",
     val videoUrl: String = ""
 )
+
+data class RemoteArticulo(
+    val author: String = "",
+    val imageUrl: String = "",
+    val description: String = "",
+    val title: String = "",
+    val videoUrl: String = ""
+)

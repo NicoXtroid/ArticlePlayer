@@ -1,5 +1,6 @@
 package com.example.testnote.ui.article
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -14,11 +15,14 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.testnote.data.model.RemoteArticle
+import androidx.media3.common.util.UnstableApi
+import com.example.testnote.data.model.RemoteArticulo
 import com.example.testnote.ui.navigation.NavGo
 
+@androidx.annotation.OptIn(UnstableApi::class)
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ArticleScreen(article: RemoteArticle, navGo: NavGo) {
+fun ArticleScreen(article: RemoteArticulo, navGo: NavGo) {
     Scaffold { it ->
         Column(
             modifier = Modifier
@@ -26,19 +30,27 @@ fun ArticleScreen(article: RemoteArticle, navGo: NavGo) {
                 .padding(top = 42.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(text = article.title, fontSize = 28.sp, fontWeight = FontWeight.W600, fontStyle = FontStyle.Italic)
-            Text(text = article.date, fontSize = 14.sp, fontWeight = FontWeight.W400)
+            Text(
+                text = article.title,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.W600,
+                fontStyle = FontStyle.Italic
+            )
             Text(text = article.author, fontSize = 14.sp, fontWeight = FontWeight.W600)
             Text(
-                text = article.note,
+                text = article.description,
                 modifier = Modifier.padding(top = 10.dp),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W400
             )
-            Box(modifier = Modifier
-                .height(200.dp)
-                .padding(top = 15.dp) ) {
-               VideoComponent(article.videoUrl)
+            Box(
+                modifier = Modifier
+                    .height(200.dp)
+                    .padding(top = 15.dp)
+            ) {
+                //VideoComponent(article.videoUrl)
+                //VideoPlayer(article.videoUrl)
+                MediaPlayer("http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4")
             }
         }
     }

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "339893059562",
+    "firebase_url": "https://article-player.firebaseio.com",
     "project_id": "article-player",
     "storage_bucket": "article-player.appspot.com"
   },
