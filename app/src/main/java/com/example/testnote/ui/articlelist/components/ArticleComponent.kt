@@ -20,7 +20,7 @@ import com.example.testnote.ui.navigation.NavGo
 
 @Composable
 fun ArticleComponent(
-    article: RemoteArticulo,//RemoteArticle,
+    article: RemoteArticulo,
     navGo: NavGo
 ) {
     Box(

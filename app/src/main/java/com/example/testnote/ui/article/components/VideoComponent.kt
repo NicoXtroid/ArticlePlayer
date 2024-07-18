@@ -1,36 +1,22 @@
-package com.example.testnote.ui.article
+package com.example.testnote.ui.article.components
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.FrameLayout
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.util.UnstableApi
-import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.MediaMetadata
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.ui.StyledPlayerView
 
@@ -78,31 +64,25 @@ fun VideoPlayer(videoUrl: String){
 @ExperimentalAnimationApi
 @Composable
 fun MediaPlayer(videoUrl: String) {
-    // Get the current context
-    val context = LocalContext.current
 
-    // Initialize ExoPlayer
+    val context = LocalContext.current
     val exoPlayer = ExoPlayer.Builder(context).build()
 
-    // Create a MediaSource
     val mediaSource = remember(videoUrl) {
         MediaItem.fromUri(videoUrl)
     }
 
-    // Set MediaSource to ExoPlayer
     LaunchedEffect(mediaSource) {
         exoPlayer.setMediaItem(mediaSource)
         exoPlayer.prepare()
     }
 
-    // Manage lifecycle events
     DisposableEffect(Unit) {
         onDispose {
             exoPlayer.release()
         }
     }
 
-    // Use AndroidView to embed an Android View (PlayerView) into Compose
     AndroidView(
         factory = { ctx ->
             PlayerView(ctx).apply {
@@ -111,6 +91,6 @@ fun MediaPlayer(videoUrl: String) {
         },
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp) // Set your desired height
+            .height(200.dp)
     )
 }

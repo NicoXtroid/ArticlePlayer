@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.media3.common.util.UnstableApi
 import com.example.testnote.data.model.RemoteArticulo
+import com.example.testnote.ui.article.components.ImageViewer
+import com.example.testnote.ui.article.components.VideoComponent
 import com.example.testnote.ui.navigation.NavGo
 
 @androidx.annotation.OptIn(UnstableApi::class)
@@ -36,7 +39,15 @@ fun ArticleScreen(article: RemoteArticulo, navGo: NavGo) {
                 fontWeight = FontWeight.W600,
                 fontStyle = FontStyle.Italic
             )
-            Text(text = article.author, fontSize = 14.sp, fontWeight = FontWeight.W600)
+            Text(
+                text = article.author,
+                modifier = Modifier.padding(vertical = 10.dp),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600
+            )
+
+            ImageViewer(article.imageUrl)
+
             Text(
                 text = article.description,
                 modifier = Modifier.padding(top = 10.dp),
@@ -48,9 +59,9 @@ fun ArticleScreen(article: RemoteArticulo, navGo: NavGo) {
                     .height(200.dp)
                     .padding(top = 15.dp)
             ) {
-                //VideoComponent(article.videoUrl)
+                VideoComponent(article.videoUrl)
                 //VideoPlayer(article.videoUrl)
-                MediaPlayer("http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4")
+                //MediaPlayer("http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4")
             }
         }
     }
