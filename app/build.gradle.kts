@@ -87,6 +87,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-database-ktx")
     implementation ("com.google.firebase:firebase-firestore-ktx:24.0.3")
 
+    implementation( "com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
