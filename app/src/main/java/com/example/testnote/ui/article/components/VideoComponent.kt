@@ -24,6 +24,8 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -156,4 +158,47 @@ fun VideoPlayerExo(
             playerView
         })
 
+}
+
+@Composable
+fun VideoPlayerFromFirebaseStorage() {
+    val context = LocalContext.current
+    var videoUrl by remember { mutableStateOf("") }
+
+    // Obtener la URL del video desde Firebase Storage
+    LaunchedEffect(Unit) {
+        val storage = Firebase.storage
+        val storageRef = storage.reference.child("https://firebasestorage.googleapis.com/v0/b/article-player.appspot.com/o/Duel%20of%20Fates%20-%20Star%20Wars.mp4?alt=media&token=020ded3a-653e-447c-8650-f607c2a7160a")
+        storageRef.downloadUrl.addOnSuccessListener { uri ->
+            videoUrl = uri.toString()
+        }.addOnFailureListener {
+            // Manejar errores aquí
+        }
+    }
+
+    // Reproducir el video usando ExoPlayer
+    if (videoUrl.isNotEmpty()) {
+        val exoPlayer = remember(context) {
+            ExoPlayer.Builder(context).build().apply {
+                val mediaItem = MediaItem.fromUri(videoUrl)
+                setMediaItem(mediaItem)
+                prepare()
+            }
+        }
+
+        DisposableEffect(
+            AndroidView(
+                factory = {
+                    PlayerView(context).apply {
+                        player = exoPlayer
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            )
+        ) {
+            onDispose { exoPlayer.release() }
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.testnote.ui.articlelist
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,10 @@ import com.example.testnote.presentation.ArticleViewModel
 import com.example.testnote.ui.articlelist.components.ArticleComponent
 import com.example.testnote.ui.navigation.NavGo
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import com.example.testnote.ui.theme.Purple40
+import com.example.testnote.ui.theme.Purple80
 
 @Composable
 fun ArticleListScreen(viewModel: ArticleViewModel, navGo: NavGo) {
@@ -21,7 +26,15 @@ fun ArticleListScreen(viewModel: ArticleViewModel, navGo: NavGo) {
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
-            .padding(top = 30.dp),
+            .padding(top = 30.dp)
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Purple40,
+                        Purple80
+                    ), endY = 0.5f
+                )
+            ),
     ) {
         for (article in articles.value) {
             ArticleComponent(article = article, navGo = navGo)

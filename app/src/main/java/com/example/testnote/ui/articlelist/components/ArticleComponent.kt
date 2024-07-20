@@ -1,5 +1,6 @@
 package com.example.testnote.ui.articlelist.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.testnote.data.model.RemoteArticulo
 import com.example.testnote.ui.navigation.NavGo
+import com.example.testnote.ui.theme.PurpleGrey80
 
 @Composable
 fun ArticleComponent(
@@ -26,8 +28,10 @@ fun ArticleComponent(
     Box(
         modifier = Modifier
             .padding(horizontal = 20.dp, vertical = 10.dp)
-            .fillMaxWidth()
+
             .border(width = 1.dp, color = Color.Cyan, shape = RoundedCornerShape(5))
+            .background(color = PurpleGrey80, shape = RoundedCornerShape(5))
+            .fillMaxWidth()
             .clickable(onClick = {
                 navGo.articleDetail.invoke(article)
             })

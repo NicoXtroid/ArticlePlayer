@@ -1,6 +1,7 @@
 package com.example.testnote.ui.article
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,19 +23,24 @@ import androidx.media3.common.util.UnstableApi
 import com.example.testnote.data.model.RemoteArticulo
 import com.example.testnote.ui.article.components.ImageViewer
 import com.example.testnote.ui.article.components.VideoComponent
+import com.example.testnote.ui.article.components.VideoPlayer
 import com.example.testnote.ui.article.components.VideoPlayerExo
+import com.example.testnote.ui.article.components.VideoPlayerFromFirebaseStorage
 import com.example.testnote.ui.article.components.YouTubePlayer
 import com.example.testnote.ui.navigation.NavGo
+import com.example.testnote.ui.theme.PurpleGrey80
 
 @androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ArticleScreen(article: RemoteArticulo, navGo: NavGo) {
-    Scaffold { it ->
+    Scaffold(modifier = Modifier.background(color = PurpleGrey80)) { it ->
         Column(
             modifier = Modifier
+                .background(color = PurpleGrey80)
                 .padding(horizontal = 22.dp)
                 .padding(top = 42.dp, bottom = 0.dp)
+
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
@@ -63,10 +69,14 @@ fun ArticleScreen(article: RemoteArticulo, navGo: NavGo) {
                     .height(200.dp)
                     .padding(top = 15.dp)
             ) {
+                //val videoLocation = "https://gs://article-player.appspot.com/Duel of Fates - Star Wars.mp4"
+                val videoLocation = "https://firebasestorage.googleapis.com/v0/b/article-player.appspot.com/o/Duel%20of%20Fates%20-%20Star%20Wars.mp4?alt=media&token=020ded3a-653e-447c-8650-f607c2a7160a"
                 //YouTubePlayer(youtubeVideoId = "BH8kbhph8IM", lifecycleOwner = LocalLifecycleOwner.current)
-                  VideoPlayerExo(videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")  
-            //VideoComponent(article.videoUrl)
-                //VideoPlayer(article.videoUrl)
+                 //VideoPlayerExo(videoUrl = "gs://article-player.appspot.com/Duel of Fates - Star Wars.mp4")
+                VideoPlayerFromFirebaseStorage()
+
+                //VideoComponent(article.videoUrl)
+                //VideoPlayer(videoLocation)
                 //MediaPlayer("http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4")
             }
             Spacer(modifier = Modifier.height(100.dp))
