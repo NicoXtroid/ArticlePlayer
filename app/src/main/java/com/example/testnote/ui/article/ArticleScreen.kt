@@ -71,9 +71,14 @@ fun ArticleScreen(article: RemoteArticulo, navGo: NavGo) {
             ) {
                 //val videoLocation = "https://gs://article-player.appspot.com/Duel of Fates - Star Wars.mp4"
                 val videoLocation = "https://firebasestorage.googleapis.com/v0/b/article-player.appspot.com/o/Duel%20of%20Fates%20-%20Star%20Wars.mp4?alt=media&token=020ded3a-653e-447c-8650-f607c2a7160a"
-                //YouTubePlayer(youtubeVideoId = "BH8kbhph8IM", lifecycleOwner = LocalLifecycleOwner.current)
-                 //VideoPlayerExo(videoUrl = "gs://article-player.appspot.com/Duel of Fates - Star Wars.mp4")
-                VideoPlayerFromFirebaseStorage()
+                //Player from youtube ID
+                YouTubePlayer(youtubeVideoId = "BH8kbhph8IM", lifecycleOwner = LocalLifecycleOwner.current)
+
+                //Player from firebase
+                //VideoPlayerFromFirebaseStorage()
+
+                //Exoplayer
+                //VideoPlayerExo(videoUrl = "gs://article-player.appspot.com/Duel of Fates - Star Wars.mp4")
 
                 //VideoComponent(article.videoUrl)
                 //VideoPlayer(videoLocation)

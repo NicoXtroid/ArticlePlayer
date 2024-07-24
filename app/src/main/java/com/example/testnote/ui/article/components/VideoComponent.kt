@@ -2,6 +2,7 @@ package com.example.testnote.ui.article.components
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -11,8 +12,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -165,18 +172,18 @@ fun VideoPlayerFromFirebaseStorage() {
     val context = LocalContext.current
     var videoUrl by remember { mutableStateOf("") }
 
-    // Obtener la URL del video desde Firebase Storage
+
     LaunchedEffect(Unit) {
         val storage = Firebase.storage
         val storageRef = storage.reference.child("https://firebasestorage.googleapis.com/v0/b/article-player.appspot.com/o/Duel%20of%20Fates%20-%20Star%20Wars.mp4?alt=media&token=020ded3a-653e-447c-8650-f607c2a7160a")
+        //val storageRef = storage.reference.child("gs://article-player.appspot.com/Duel of Fates - Star Wars.mp4")
         storageRef.downloadUrl.addOnSuccessListener { uri ->
             videoUrl = uri.toString()
         }.addOnFailureListener {
-            // Manejar errores aquí
+            Log.d("ERROR", "URL Not Valid")
         }
     }
 
-    // Reproducir el video usando ExoPlayer
     if (videoUrl.isNotEmpty()) {
         val exoPlayer = remember(context) {
             ExoPlayer.Builder(context).build().apply {
